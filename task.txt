@@ -1,0 +1,7 @@
+Study and empirical analysis of sorting algorithms, analysis of quick sort, mergesort, heapsort and one of my choice
+1. implement the algorithms listed above in a programming language
+2. establish the properties of the input data against which the analysis is performed
+3. choose metrics for comparing algorithms
+4. perform epiciral analysis for proposed algorithms
+5. make a graphical presentation of the data obstained
+6. make a conclusion on the work done
