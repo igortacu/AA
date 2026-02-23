@@ -1,0 +1,601 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx} % Allows you to insert figures
+\usepackage{subcaption}
+\usepackage{amsmath} % Allows you to do equations
+\usepackage{fancyhdr} % Formats the header
+\usepackage{geometry} % Formats the paper size, orientation, and margins
+\usepackage{dirtytalk} % typesetting different types of quotation
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{graphicx}  % in preamble
+\usepackage{float}     % in preamble, for [H] placement
+\usepackage{enumitem}
+\usepackage{titlesec}
+
+% % Define code style
+% \lstset{
+%   basicstyle=\ttfamily\small,
+%   backgroundcolor=\color{gray!10},
+%   frame=single,
+%   breaklines=true,
+%   postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+%   keywordstyle=\color{blue},
+%   commentstyle=\color{green!50!black},
+%   stringstyle=\color{orange},
+% }
+
+% Code styling
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    backgroundcolor=\color{lightgray!20},
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=10pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    frame=single,
+    tabsize=2,
+    breaklines=true,
+    breakatwhitespace=false,
+    escapeinside={\%*}{*)},
+    morekeywords={void, size, setup, draw, pushMatrix, popMatrix}
+}
+\titleformat{\section}
+  {\centering\bfseries\Large}
+  {\thesection.}
+  {0.6em}
+  {}
+\linespread{1.25} % About 1.5 spacing in Word
+\setlength{\parindent}{0.8cm} % No paragraph indents
+\setlength{\parskip}{0em} % Paragraphs separated by one line
+\renewcommand{\headrulewidth}{0pt} % Removes line in header
+\geometry{a4paper, portrait, margin=1in}
+\setlength{\headheight}{14.49998pt}
+\graphicspath{ {images/} }
+
+\begin{document}
+\begin{titlepage}
+   \begin{center}
+    \textbf{\large Ministry of Education of Republic of Moldova}\\[0.1cm]
+    \textbf{\large Technical University of Moldova}\\[0.1cm]
+    \textbf{\large Faculty of Computers, Informatics and Microelectronics}\\[1.2cm]
+    
+    \vspace{45 mm}
+    
+    % \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+    % \HRule \\[0.4cm]
+    % \textsc{\Large Criptography and security}\\[0.5cm]
+    \textsc{\Large Laboratory work 1:}\\[0.1cm]    % <<<<<<< CHANGE LAB NUMBER HERE
+    \textsc{\Large Study and Empirical Analysis of Algorithms for Determining Fibonacci N-th Term }\\[0.4cm]
+    % { \LARGE \bfseries Public Key Infrastructure (PKI) and Digital Signature Algorithm (DSA)} % <<<<<<< CHANGE LAB TITLE HERE
+    % \HRule \\[1.5cm]
+    
+    \vspace{70mm}
+    
+    \begin{minipage}[t]{0.4\textwidth}
+    \begin{flushleft} \large
+    \emph{Author:} \\                     
+    st. gr. FAF-242 \\
+    \emph{Verified:} \\ 
+    asist. univ. \\
+    \end{flushleft}
+    \end{minipage}
+    ~
+    \begin{minipage}[t]{0.4\textwidth}
+    \begin{flushright} \large
+    \emph{} \\
+    Tacu Igor \\
+    \emph{} \\
+    Fiștic Cristofor 
+    \end{flushright}
+    \end{minipage}\\[3cm]
+    
+    \vspace{5 mm}
+    \large Chișinău - 2025\\[0.5cm]
+    
+    \vfill
+    \end{center}
+\end{titlepage}
+% =========================
+%   TABLE OF CONTENTS
+%   (Page 2 without number shown, like in your draft)
+% =========================
+\clearpage
+\thispagestyle{empty}
+\tableofcontents
+
+% Start visible numbering from 3 (to mimic: title=1 hidden, toc=2 hidden, content starts at 3)
+\clearpage
+\setcounter{page}{3}
+\pagestyle{fancy}
+
+\setcounter{page}{2}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\thepage}
+% \lhead{FAF-232 Belih Dmitrii; Laboratory Work №5s}
+
+\section*{ALGORITHM ANALYSIS}
+\addcontentsline{toc}{section}{ALGORITHM ANALYSIS }
+
+
+\subsection*{Objective  }
+\addcontentsline{toc}{subsection}{Objective}
+
+Study and analyze different algorithms for determining Fibonacci n-th term. 
+
+
+\subsection*{Tasks:}
+\addcontentsline{toc}{subsection}{Tasks}
+
+\begin{enumerate}[itemsep=1pt]
+  \item Implement at least 3 algorithms for determining Fibonacci n-th term; 
+  \item Decide properties of input format that will be used for algorithm analysis; 
+  \item Decide the comparison metric for the algorithms; 
+  \item Analyze empirically the algorithms; 
+  \item Present the results of the obtained data; 
+  \item Deduce conclusions of the laboratory.  
+\end{enumerate}
+
+\subsection*{Theoretical Notes:}
+\addcontentsline{toc}{subsection}{Theoretical Notes}
+\hspace{0.7cm} An alternative to mathematical analysis of complexity is empirical analysis. 
+
+This may be useful for: obtaining preliminary information on the complexity class of an 
+algorithm; comparing the efficiency of two (or more) algorithms for solving the same problems; 
+comparing the efficiency of several implementations of the same algorithm; obtaining information on the 
+efficiency of implementing an algorithm on a particular computer. 
+
+In the empirical analysis of an algorithm, the following steps are usually followed:
+
+\begin{enumerate}[itemsep=1pt]
+  \item The purpose of the analysis is established.  
+  \item Choose the efficiency metric to be used (number of executions of an operation (s) or time 
+execution of all or part of the algorithm.
+  \item The properties of the input data in relation to which the analysis is performed are established 
+(data size or specific properties).  
+  \item The algorithm is implemented in a programming language.
+  \item  Generating multiple sets of input data. 
+  \item  Run the program for each input data set.  
+  \item   The obtained data are analyzed.   
+\end{enumerate}
+
+The choice of the efficiency measure depends on the purpose of the analysis. If, for example, the 
+aim is to obtain information on the complexity class or even checking the accuracy of a theoretical 
+estimate then it is appropriate to use the number of operations performed. But if the goal is to assess the 
+behavior of the implementation of an algorithm then execution time is appropriate. 
+
+After the execution of the program with the test data, the results are recorded and, for the purpose 
+of the analysis, either synthetic quantities (mean, standard deviation, etc.) are calculated or a graph with 
+appropriate pairs of points (i.e. problem size, efficiency measure) is plotted.
+
+\subsection*{Introduction:}
+\addcontentsline{toc}{subsection}{Introduction}
+\hspace{0.8cm} The Fibonacci sequence is the series of numbers where each number is the sum of the two 
+preceding numbers. For example: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, … 
+Mathematically we can describe this as: xn= xn-1 + xn-2. 
+
+Many sources claim this sequence was first discovered or "invented" by Leonardo Fibonacci. The 
+Italian mathematician, who was born around A.D. 1170, was initially known as Leonardo of Pisa. In the 
+19th century, historians came up with the nickname Fibonacci (roughly meaning "son of the Bonacci 
+clan") to distinguish the mathematician from another famous Leonardo of Pisa. 
+There are others who say he did not. Keith Devlin, the author of Finding Fibonacci: The Quest to 
+Rediscover the Forgotten Mathematical Genius Who Changed the World, says there are ancient Sanskrit 
+texts that use the Hindu-Arabic numeral system - predating Leonardo of Pisa by centuries. 
+But, in 1202 Leonardo of Pisa published a mathematical text, Liber Abaci. It was a “cookbook” written 
+for tradespeople on how to do calculations. The text laid out the Hindu-Arabic arithmetic useful for 
+tracking profits, losses, remaining loan balances, etc, introducing the Fibonacci sequence to the Western 
+world. 
+
+Traditionally, the sequence was determined just by adding two predecessors to obtain a new 
+number, however, with the evolution of computer science and algorithmics, several distinct methods for 
+determination have been uncovered. The methods can be grouped in 4 categories, Recursive Methods, 
+Dynamic Programming Methods, Matrix Power Methods, and Benet Formula Methods. All those can be 
+implemented naively or with a certain degree of optimization, that boosts their performance during 
+analysis. 
+
+As mentioned previously, the performance of an algorithm can be analyzed mathematically 
+(derived through mathematical reasoning) or empirically (based on experimental observations).  
+
+Within this laboratory, we will be analyzing the 4 naïve algorithms empirically.   
+
+\subsection*{Comparison Metric:}
+\addcontentsline{toc}{subsection}{Comparison Metric}
+\hspace{0.8cm} The comparison metric for this laboratory work will be considered the time of execution of each 
+algorithm (T(n)) 
+
+\subsection*{Input Format:}
+\addcontentsline{toc}{subsection}{Input Format}
+
+\hspace{0.8cm} As input, each algorithm will receive two series of numbers that will contain the order of the 
+Fibonacci terms being looked up. The first series will have a more limited scope, (5, 7, 10, 12, 15, 17, 20, 
+22, 25, 27, 30, 32, 35, 37, 40, 42, 45), to accommodate the recursive method, while the second series will 
+have a bigger scope to be able to compare the other algorithms between themselves (501, 631, 794, 1000, 
+1259, 1585, 1995, 2512, 3162, 3981, 5012, 6310, 7943, 10000, 12589, 15849).
+
+
+
+\section*{IMPLEMENTATION}
+\addcontentsline{toc}{section}{IMPLEMENTATION}
+
+\hspace{0.8cm} All four algorithms will be implemented in their naïve form in python an analyzed empirically 
+based on the time required for their completion. While the general trend of the results may be similar to 
+other experimental observations, the particular efficiency in rapport with input will vary depending o 
+memory of the device used. 
+
+The error margin determined will constitute 2.5 seconds as per experimental measurement. 
+% \section*{Introduction}
+% \section*{Technical Implementation}
+
+\subsection*{Recursive Method:}
+\addcontentsline{toc}{subsection}{Recursive Method}
+
+\hspace{0.8cm} The recursive method, also considered the most inefficient method, follows a straightforward 
+approach of computing the n-th term by computing it’s predecessors first, and then adding them. 
+However, the method does it by calling upon itself a number of times and repeating the same operation, 
+for the same term, at least twice, occupying additional memory and, in theory, doubling it’s execution 
+time. 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{images/tree.png}
+  \caption{Fibonacci Recursion}
+  \label{fig:fib-rec}
+\end{figure}
+
+\noindent\hspace*{0.8cm}\textit{Algorithm Description:}
+
+The naïve recursive Fibonacci method follows the algorithm as shown in the next pseudocode: 
+
+\begin{lstlisting}[caption={Recursive Fibonacci (pseudocode)}, label={lst:fib-rec}]
+Fibonacci(n):
+    if n <= 1:
+        return n
+    otherwise:
+        return Fibonacci(n-1) + Fibonacci(n-2)
+\end{lstlisting}
+\noindent\hspace*{0.8cm}\textit{Implementation: }
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{images/implementation.png}
+  \caption{Fibonacci recursion in Python }
+  \label{fig:fib-rec}
+\end{figure}
+
+\noindent\hspace*{0.8cm}\textit{Results: }
+
+After running the function for each n Fibonacci term proposed in the list from the first Input 
+Format and saving the time for each n, we obtained the following results:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{images/result1.png}
+  \caption{Results for first set of inputs}
+  \label{fig:fib-rec}
+\end{figure}
+
+
+In Figure 3 is represented the table of results for the first set of inputs. The highest line(the name 
+of the columns) denotes the Fibonacci n-th term for which the functions were run. Starting from the 
+second row, we get the number of seconds that elapsed from when the function was run till when the 
+function was executed. We may notice that the only function whose time was growing for this few n 
+terms was the Recursive Method Fibonacci function.  
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{images/graph1.png}
+  \caption{Graph of Recursive Fibonacci Function }
+  \label{fig:fib-rec}
+\end{figure}
+
+Not only that, but also in the graph in Figure 4 that shows the growth of the time needed for the 
+operations, we may easily see the spike in time complexity that happens after the 42nd term, leading us to 
+deduce that the Time Complexity is exponential. T(\(2^n\)). 
+
+\subsection*{Dynamic Programming Method: }
+\addcontentsline{toc}{subsection}{Dynamic Programming Method}
+
+\hspace{0.8cm} The Dynamic Programming method, similar to the recursive method, takes the straightforward 
+approach of calculating the n-th term. However, instead of calling the function upon itself, from top down it operates based on an array data structure that holds the previously computed terms, eliminating the need 
+to recompute them.   
+
+\noindent\hspace*{0.8cm}\textit{Algorithm Description:}
+
+The naïve DP algorithm for Fibonacci n-th term follows the pseudocode: 
+
+\begin{lstlisting}[caption={Dynamic Programming Method (pseudocode)}, label={lst:fib-rec}]
+Fibonacci(n): 
+    Array A; 
+    A[0]<-0; 
+    A[1]<-1; 
+    for i <- 2 to n – 1 do 
+        A[i]<-A[i-1]+A[i-2]; 
+    return A[n-1] 
+\end{lstlisting}
+\noindent\hspace*{0.8cm}\textit{Implementation: }
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{images/implementation2.png}
+  \caption{ Fibonacci DP in Python}
+  \label{fig:fib-rec}
+\end{figure}
+
+\noindent\hspace*{0.8cm}\textit{Results: }
+
+After the execution of the function for each n Fibonacci term mentioned in the second set of Input 
+Format we obtain the following results: 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{images/result2.png}
+  \caption{Fibonacci DP Results }
+  \label{fig:fib-rec}
+\end{figure}
+
+
+With the Dynamic Programming Method (first row, row[0]) showing excellent results with a time 
+complexity denoted in a corresponding graph of T(n), 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{images/graph2.png}
+  \caption{ Fibonacci DP Graph }
+  \label{fig:fib-rec}
+\end{figure}
+
+Not only that, but also in the graph in Figure 4 that shows the growth of the time needed for the 
+operations, we may easily see the spike in time complexity that happens after the 42nd term, leading us to 
+deduce that the Time Complexity is exponential. T(\(2^n\)). 
+
+\subsection*{Matrix Power Method: }
+\addcontentsline{toc}{subsection}{Matrix Power Method}
+
+\hspace{0.8cm} The Matrix Power method of determining the n-th Fibonacci number is based on, as expected, the 
+multiple multiplication of a naïve Matrix \(
+\begin{pmatrix}
+0 & 1 \\
+1 & 1
+\end{pmatrix}
+\) with itself.
+
+\noindent\hspace*{0.8cm}\textit{Algorithm Description: }
+
+It is known that 
+
+\[
+\begin{pmatrix}
+0 & 1 \\
+1 & 1
+\end{pmatrix}
+\begin{pmatrix}
+a \\
+b
+\end{pmatrix}
+= 
+\begin{pmatrix}
+b \\
+a + b
+\end{pmatrix}
+\] 
+
+This property of Matrix multiplication can be used to represent 
+ 
+
+\[
+\begin{pmatrix}
+0 & 1 \\
+1 & 1
+\end{pmatrix}
+\begin{pmatrix}
+F_0 \\
+F_1
+\end{pmatrix}
+= 
+\begin{pmatrix}
+F_1 \\
+F_2
+\end{pmatrix}
+\] 
+
+And similarly:
+
+
+\[
+\begin{pmatrix}
+0 & 1 \\
+1 & 1
+\end{pmatrix}
+\begin{pmatrix}
+F_1 \\
+F_2
+\end{pmatrix}
+= 
+\begin{pmatrix}
+0 & 1 \\
+1 & 1
+\end{pmatrix}^{2}
+\begin{pmatrix}
+F_0 \\
+F_1
+\end{pmatrix}
+=
+\begin{pmatrix}
+F_2 \\
+F_3
+\end{pmatrix}
+\] 
+
+Which turns into the general: 
+\[
+\begin{pmatrix}
+0 & 1 \\
+1 & 1
+\end{pmatrix}^{n}
+\begin{pmatrix}
+F_0 \\
+F_1
+\end{pmatrix}
+=
+\begin{pmatrix}
+F_n \\
+F_{n-1}
+\end{pmatrix}
+\]
+This set of operation can be described in pseudocode as follows:
+
+\begin{lstlisting}[caption={Matrix Power Method (pseudocode)}, label={lst:fib-rec}]
+Fibonacci(n): 
+    F<- [] 
+    vec <- [[0], [1]] 
+    Matrix <- [[0, 1],[1, 1]] 
+    F <-power(Matrix, n) 
+    F <- F * vec 
+    Return F[0][0]  
+\end{lstlisting}
+
+\noindent\hspace*{0.8cm}\textit{Implementation: }
+The implementation of the driving function in Python is as follows: 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{images/implementation3.png}
+  \caption{Fibonacci Matrix Power Method in Python }
+  \label{fig:fib-rec}
+\end{figure}
+With additional miscellaneous functions:
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{images/implementation3.1.png}
+  \caption{Power Function Python}
+  \label{fig:fib-rec}
+\end{figure}
+
+Where the power function (Figure 8) handles the part of raising the Matrix to the power n, while 
+the multiplying function (Figure 9) handles the matrix multiplication with itself.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{images/implementation3.2.png}
+  \caption{Multiply Function Python }
+  \label{fig:fib-rec}
+\end{figure}
+
+\noindent\hspace*{0.8cm}\textit{Result  : }
+After the execution of the function for each n Fibonacci term mentioned in the second set of Input 
+Format we obtain the following results:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{images/result3.png}
+  \caption{ Matrix Method Fibonacci Results }
+  \label{fig:fib-rec}
+\end{figure}
+
+With the naïve Matrix method (indicated in last row, row[2]), although being slower than the 
+Binet and Dynamic Programming one, still performing pretty well, with the form f the graph indicating a 
+pretty solid T(n) time complexity.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{images/graph3.png}
+  \caption{Matrix Method Fibonacci graph}
+  \label{fig:fib-rec}
+\end{figure}
+
+\subsection*{Binet Formula Method:}
+\addcontentsline{toc}{subsection}{Binet Formula Method}
+
+\hspace{0.8cm} The Binet Formula Method is another unconventional way of calculating the n-th term of the 
+Fibonacci series, as it operates using the Golden Ratio formula, or phi. However, due to its nature of 
+requiring the usage of decimal numbers, at some point, the rounding error of python that accumulates, 
+begins affecting the results significantly. The observation of error starting with around 70-th number 
+making it unusable in practice, despite its speed.  
+
+\noindent\hspace*{0.8cm}\textit{Algorithm Description: }
+
+The set of operation for the Binet Formula Method can be described in pseudocode as follows:
+
+
+\begin{lstlisting}[caption={Matrix Power Method (pseudocode)}, label={lst:fib-rec}]
+Fibonacci(n): 
+    phi <- (1 + sqrt(5)) 
+    phi1 <-(1 – sqrt(5)) 
+    return pow(phi, n)- pow(phi1, n)/(pow(2, n)*sqrt(5))
+\end{lstlisting}
+
+\noindent\hspace*{0.8cm}\textit{Implementation: }
+The implementation of the function in Python is as follows, with some alterations that would 
+increase the number of terms that could be obtain through it: 
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{images/implementation4.png}
+  \caption{Fibonacci Binet Formula Method in Python}
+  \label{fig:fib-rec}
+\end{figure}
+
+\noindent\hspace*{0.8cm}\textit{Result  : }
+Although the most performant with its time, as shown in the table of results, in row [1],
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{images/result4.png}
+  \caption{ Fibonacci Binet Formula Method results}
+  \label{fig:fib-rec}
+\end{figure}
+
+And as shown in its performance graph,
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{images/graph4.png}
+  \caption{ Fibonacci Binet formula Method }
+  \label{fig:fib-rec}
+\end{figure}
+The Binet Formula Function is not accurate enough to be considered within the analysed limits 
+and is recommended to be used for Fibonacci terms up to 80. At least in its naïve form in python, as 
+further modification and change of language may extend its usability further.
+
+
+
+
+\section*{CONCLUSION}
+\addcontentsline{toc}{section}{CONCLUSION}
+
+\hspace{0.8cm} Through Empirical Analysis, within this paper, four classes of methods have been tested in their 
+efficiency at both their providing of accurate results, as well as at the time complexity required for their 
+execution, to delimit the scopes within which each could be used, as well as possible improvements that 
+could be further done to make them more feasible. 
+
+The Recursive method, being the easiest to write, but also the most difficult to execute with an 
+exponential time complexity, can be used for smaller order numbers, such as numbers of order up to 30 
+with no additional strain on the computing machine and no need for testing of patience. 
+
+The Binet method, the easiest to execute with an almost constant time complexity, could be used 
+when computing numbers of order up to 80, after the recursive method becomes unfeasible. However, its 
+results are recommended to be verified depending on the language used, as there could rounding errors due 
+to its formula that uses the Golden Ratio. 
+
+The Dynamic Programming and Matrix Multiplication Methods can be used to compute Fibonacci 
+numbers further then the ones specified above, both of them presenting exact results and showing a linear 
+complexity in their naivety that could be, with additional tricks and optimisations, reduced to logarithmic.  
+
+
+https://github.com/igortacu/AA
+
+\pagebreak
+\end{document}
