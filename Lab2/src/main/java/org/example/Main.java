@@ -69,7 +69,6 @@ public class Main {
     }
 
     static void verifyCorrectness() {
-        System.out.println("\n--- Correctness check ---");
         int[] original = {64, 34, 25, 12, 22, 11, 90, 1, 77, 45};
         int[] expected = Arrays.copyOf(original, original.length);
         Arrays.sort(expected);
